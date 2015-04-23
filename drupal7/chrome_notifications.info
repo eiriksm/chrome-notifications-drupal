@@ -1,0 +1,3 @@
+name = Chrome Notifications API
+description = API Module for sending Chrome notifications
+core = 7.x

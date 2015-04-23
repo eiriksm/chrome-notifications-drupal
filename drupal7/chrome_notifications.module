@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function chrome_notifications_menu() {
+  $items = array();
+  $items['admin/config/people/chrome_notifications'] = array(
+    'title' => 'Chrome notifications settings',
+    'access arguments' => array('administer chrome notifications'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('chrome_notifications_admin_form'),
+    'file' => 'chrome_notifications.admin.inc',
+  );
+  $items['user/%user/chrome_notifications'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'access arguments' => array('administer own chrome notifications'),
+    'title' => 'Notification subscriptions',
+    'page callback' => 'chrome_notifications_user_notifications',
+    'page arguments' => array(1),
+    'file' => 'chrome_notifications.pages.inc',
+  );
+  $items['chrome_notifications/manifest'] = array(
+    'title' => 'manifest.json',
+    'access arguments' => array('access content'),
+    'page callback' => 'chrome_notifications_manifest_json',
+    'file' => 'chrome_notifications.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['chrome_notifications/save_subscription'] = array(
+    'title' => 'Save subscription id',
+    'access arguments' => array('administer own chrome notifications'),
+    'page callback' => 'chrome_notifications_save_subscription',
+    'file' => 'chrome_notifications.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['chrome_notifications/test_subscription'] = array(
+    'title' => 'Test subscription',
+    'access arguments' => array('administer own chrome notifications'),
+    'page callback' => 'chrome_notifications_test_subscription',
+    'file' => 'chrome_notifications.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function chrome_notifications_permission() {
+  return array(
+    'administer chrome notifications' => array(
+      'title' => t('Administer chrome notifications'),
+      'description' => t('Adminster settings for Chrome notifications API'),
+    ),
+    'administer own chrome notifications' => array(
+      'title' => t('Administer own chrome notifications'),
+      'description' => t('Adminster per-user settings for Chrome notifications API'),
+    ),
+  );
+}
